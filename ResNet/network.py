@@ -1,10 +1,13 @@
 import tflearn
+from tflearn.layers.core import input_data, fully_connected
+from tflearn.layers.conv import conv_2d
+from tflearn import residual_bottleneck, batch_normalization, global_avg_pool
 
 # Building the network
 def ANN():
 	network = input_data(shape=[None, 28, 28, 1], name='input')
 
-	network = tflearn.conv_2d(network, 64, 3, activation='relu', bias=False)
+	network = conv_2d(network, 64, 3, activation='relu', bias=False)
 	# Residual blocks
 	network = tflearn.residual_bottleneck(network, 3, 16, 64)
 	network = tflearn.residual_bottleneck(network, 1, 32, 128, downsample=True)

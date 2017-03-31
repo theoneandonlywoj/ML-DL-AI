@@ -1,7 +1,7 @@
 import tflearn
-from tflearn.layers.core import input_data, fully_connected
-from tflearn.layers.conv import conv_2d
-from tflearn import residual_bottleneck, batch_normalization, global_avg_pool
+from tflearn.layers.core import input_data, activation, fully_connected
+from tflearn.layers.conv import conv_2d, residual_bottleneck, global_avg_pool
+from tflearn.layers.normalization import batch_normalization
 
 # Building the network
 def ANN():
@@ -9,14 +9,14 @@ def ANN():
 
 	network = conv_2d(network, 64, 3, activation='relu', bias=False)
 	# Residual blocks
-	network = tflearn.residual_bottleneck(network, 3, 16, 64)
-	network = tflearn.residual_bottleneck(network, 1, 32, 128, downsample=True)
-	network = tflearn.residual_bottleneck(network, 2, 32, 128)
-	network = tflearn.residual_bottleneck(network, 1, 64, 256, downsample=True)
-	network = tflearn.residual_bottleneck(network, 2, 64, 256)
-	network = tflearn.batch_normalization(network)
-	network = tflearn.activation(network, 'relu')
-	network = tflearn.global_avg_pool(network)
+	network = residual_bottleneck(network, 3, 16, 64)
+	network = residual_bottleneck(network, 1, 32, 128, downsample=True)
+	network = residual_bottleneck(network, 2, 32, 128)
+	network = residual_bottleneck(network, 1, 64, 256, downsample=True)
+	network = residual_bottleneck(network, 2, 64, 256)
+	network = batch_normalization(network)
+	network = activation(network, 'relu')
+	network = global_avg_pool(network)
 	
 	# Output layer
 	network = fully_connected(network, 10, activation = 'softmax')

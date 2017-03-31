@@ -1,9 +1,8 @@
 import tflearn
-from tflearn.layers.merge_ops import merge
 from tflearn.layers.core import input_data, dropout, fully_connected
 from tflearn.layers.conv import conv_2d, max_pool_2d
 from tflearn.layers.estimator import regression
-from tflearn.data_utils import to_categorical
+
 
 # Building the network
 def ANN():

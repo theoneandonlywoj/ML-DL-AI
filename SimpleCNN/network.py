@@ -29,10 +29,14 @@ def ANN():
 	full_2 = dropout(full_2, dropout_value)
 
 	# Output layer
-	merged_layers = fully_connected(full_2, 10, activation = 'softmax')
-	network = regression(merged_layers, optimizer = 'adam', learning_rate = 0.001,
+	network = fully_connected(full_2, 10, activation = 'softmax')
+	network = tflearn.regression(network, optimizer = 'momentum',
+	                         loss  = 'categorical_crossentropy',
+	                         learning_rate = 0.1)
+	'''
+	network = regression(network, optimizer = 'adam', learning_rate = 0.001,
 	                     loss = 'categorical_crossentropy', name ='target')
-
+	'''
 	model = tflearn.DNN(network, tensorboard_verbose = 0, tensorboard_dir = './logs', best_checkpoint_path = './checkpoints/best/best_val', max_checkpoints = 1)
 	
 	return model

@@ -83,3 +83,45 @@ def get_data():
 	y_val = to_categorical(y_val, nb_classes = 10)
 
 	return x_train, x_val, y_train, y_val   
+
+# Oxford Flowers Dataset
+def get_data_oxford_flowers():
+	import tflearn.datasets.oxflower17 as oxflower17
+	X, Y = oxflower17.load_data(one_hot = True, resize_pics = (227, 227))
+
+	split_percentage = 80
+	split_index = int(X.shape[0]/(100/split_percentage))
+
+	x_train = np.array(X[:split_index])
+	x_val = np.array(X[split_index:])
+
+	y_train = np.array(Y[:split_index])
+	y_val = np.array(Y[split_index:])
+	return x_train, x_val, y_train, y_val 
+
+def get_data_CIFAR10(dataset = 'Train + Val'):
+	from tflearn.datasets import cifar10
+	(X, Y), (X_test, Y_test) = cifar10.load_data()
+	
+	# Size is 32, 32, 3
+	
+	split_percentage = 80
+	split_index = int(X.shape[0]/(100/split_percentage))
+
+	x_train = np.array(X[:split_index])
+	x_val = np.array(X[split_index:])
+
+	y_train = np.array(Y[:split_index])
+	y_val = np.array(Y[split_index:])
+	
+	Y = to_categorical(Y, 10)
+	Y_test = to_categorical(Y_test, 10)
+
+	if dataset == 'Test':
+		return x_train, x_val, y_train, y_val 
+	else:
+		return X_test, Y_test 
+
+	
+
+

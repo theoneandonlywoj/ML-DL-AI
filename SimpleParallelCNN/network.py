@@ -4,12 +4,21 @@ from tflearn.layers.core import input_data, dropout, fully_connected
 from tflearn.layers.conv import conv_2d, max_pool_2d
 from tflearn.layers.estimator import regression
 from tflearn.data_utils import to_categorical
+from tflearn.data_preprocessing import ImagePreprocessing
 
 # Building the network
 def ANN():
-	dropout_value = 0.40
+	dropout_value = 0.35
 
-	network = input_data(shape=[None, 28, 28, 1], name='input')
+	# Real-time data preprocessing
+	img_prep = ImagePreprocessing()
+	img_prep.add_featurewise_zero_center()
+	img_prep.add_featurewise_stdnorm()
+
+	# Building the network
+	network = input_data(shape=[None, 28, 28, 1],
+		data_preprocessing=img_prep,
+		name='input')
 
 	# Branch 1
 	branch1 = conv_2d(network, 32, [2, 2], activation = 'relu', name = 'B1Conv2d_2x2')

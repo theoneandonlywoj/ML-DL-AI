@@ -2,11 +2,20 @@ import tflearn
 from tflearn.layers.core import input_data, dropout, fully_connected
 from tflearn.layers.conv import conv_2d, max_pool_2d
 from tflearn.layers.estimator import regression
-
+from tflearn.data_preprocessing import ImagePreprocessing
 
 # Building the network
 def ANN():
-	network = input_data(shape=[None, 28, 28, 1], name='input')
+
+	# Real-time data preprocessing
+	img_prep = ImagePreprocessing()
+	img_prep.add_featurewise_zero_center()
+	img_prep.add_featurewise_stdnorm()
+
+	# Building the network
+	network = input_data(shape=[None, 28, 28, 1],
+		data_preprocessing=img_prep,
+		name='input')
 
 	network = conv_2d(network, 64, 3, activation = 'relu')
 	network = conv_2d(network, 64, 3, activation = 'relu')

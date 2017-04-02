@@ -2,10 +2,21 @@ import tflearn
 from tflearn.layers.core import input_data, activation, fully_connected
 from tflearn.layers.conv import conv_2d, residual_bottleneck, global_avg_pool
 from tflearn.layers.normalization import batch_normalization
+from tflearn.data_preprocessing import ImagePreprocessing
 
 # Building the network
 def ANN():
-	network = input_data(shape=[None, 28, 28, 1], name='input')
+	dropout_value = 0.35
+
+	# Real-time data preprocessing
+	img_prep = ImagePreprocessing()
+	img_prep.add_featurewise_zero_center()
+	img_prep.add_featurewise_stdnorm()
+
+	# Building the network
+	network = input_data(shape=[None, 28, 28, 1],
+		data_preprocessing=img_prep,
+		name='input')
 
 	network = conv_2d(network, 64, 3, activation='relu', bias=False)
 	# Residual blocks

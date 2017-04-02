@@ -5,7 +5,7 @@ import pandas as pd
 from tqdm import tqdm
 from network import *
 
-model = ANN()
+model = ANN(WIDTH = 28, HEIGHT = 28, CHANNELS = 1, LABELS = 10)
 
 # Loading the best accuracy checkpoint (accuracy over the validation data)
 model_name = input('Input name of the best model: ')

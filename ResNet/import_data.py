@@ -26,7 +26,7 @@ def labels_info(output_data):
     return number_of_labels
 
 def labels_as_numbers(output_data):
-    _, output_data_as_numbers = np.unique(output_data, return_inverse=True)
+    _, output_data_as_numbers = np.unique(output_data, return_inverse = True)
     return output_data_as_numbers
 
 # -------------------------------------------------------------------------------

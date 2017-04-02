@@ -6,7 +6,7 @@ from tflearn.layers.estimator import regression
 from tflearn.data_utils import to_categorical
 from tflearn.data_preprocessing import ImagePreprocessing
 # Building the network
-def ANN():
+def ANN(WIDTH, HEIGHT, CHANNELS, LABELS):
 	dropout_value = 0.35
 
 	# Real-time data preprocessing
@@ -15,10 +15,9 @@ def ANN():
 	img_prep.add_featurewise_stdnorm()
 
 	# Building the network
-	network = input_data(shape=[None, 28, 28, 1],
+	network = input_data(shape=[None, WIDTH, HEIGHT, CHANNELS],
 		data_preprocessing=img_prep,
 		name='input')
-	#network = input_data(shape=[None, 227, 227, 3], name='input')
 
 	# Branch 1
 	branch1 = conv_2d(network, 10, [2, 2], activation = 'relu', name = 'B1Conv2d_2x2')
@@ -37,9 +36,8 @@ def ANN():
 	full_2 = dropout(full_2, dropout_value)
 
 	# Output layer
-	network = fully_connected(full_2, 10, activation = 'softmax')
+	network = fully_connected(full_2, LABELS, activation = 'softmax')
 	
-	#network = fully_connected(full_2, 17, activation = 'softmax')
 	'''
 	network = tflearn.regression(network, optimizer = 'momentum',
 	                         loss  = 'categorical_crossentropy',

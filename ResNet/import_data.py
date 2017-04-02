@@ -31,7 +31,7 @@ def labels_as_numbers(output_data):
 
 # -------------------------------------------------------------------------------
 # Acquiring the data
-def get_data():
+def get_data_MNIST():
 	folder = 'Digit Recognizer'
 	file_name = 'train.csv'
 	specific_dataset_source = folder + '/' + file_name

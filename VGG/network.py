@@ -5,7 +5,7 @@ from tflearn.layers.estimator import regression
 from tflearn.data_preprocessing import ImagePreprocessing
 
 # Building the network
-def ANN():
+def ANN(WIDTH, HEIGHT, CHANNELS, LABELS):
 
 	# Real-time data preprocessing
 	img_prep = ImagePreprocessing()
@@ -13,7 +13,7 @@ def ANN():
 	img_prep.add_featurewise_stdnorm()
 
 	# Building the network
-	network = input_data(shape=[None, 28, 28, 1],
+	network = input_data(shape=[None, WIDTH, HEIGHT, CHANNELS],
 		data_preprocessing=img_prep,
 		name='input')
 
@@ -46,7 +46,7 @@ def ANN():
 	network = dropout(network, 0.5)
 
 	# Output layer
-	merged_layers = fully_connected(network, 10, activation = 'softmax')
+	merged_layers = fully_connected(network, LABELS, activation = 'softmax')
 	network = regression(merged_layers, optimizer = 'adam', learning_rate = 0.0005,
 	                     loss = 'categorical_crossentropy', name ='target')
 

@@ -5,7 +5,7 @@ from tflearn.layers.normalization import batch_normalization
 from tflearn.data_preprocessing import ImagePreprocessing
 
 # Building the network
-def ANN():
+def ANN(WIDTH, HEIGHT, CHANNELS, LABELS):
 	dropout_value = 0.35
 
 	# Real-time data preprocessing
@@ -14,7 +14,7 @@ def ANN():
 	img_prep.add_featurewise_stdnorm()
 
 	# Building the network
-	network = input_data(shape=[None, 28, 28, 1],
+	network = input_data(shape=[None, WIDTH, HEIGHT, CHANNELS],
 		data_preprocessing=img_prep,
 		name='input')
 
@@ -30,7 +30,7 @@ def ANN():
 	network = global_avg_pool(network)
 	
 	# Output layer
-	network = fully_connected(network, 10, activation = 'softmax')
+	network = fully_connected(network, LABELS, activation = 'softmax')
 
 	'''
 	network = regression(network, optimizer = 'adam', learning_rate = 0.01,

@@ -7,7 +7,7 @@ from tflearn.data_utils import to_categorical
 from tflearn.data_preprocessing import ImagePreprocessing
 
 # Building the network
-def ANN():
+def ANN(WIDTH, HEIGHT, CHANNELS, LABELS):
 	dropout_value = 0.35
 
 	# Real-time data preprocessing
@@ -16,7 +16,7 @@ def ANN():
 	img_prep.add_featurewise_stdnorm()
 
 	# Building the network
-	network = input_data(shape=[None, 28, 28, 1],
+	network = input_data(shape=[None, WIDTH, HEIGHT, CHANNELS],
 		data_preprocessing=img_prep,
 		name='input')
 
@@ -44,7 +44,7 @@ def ANN():
 	merged_layers = dropout(merged_layers, dropout_value)
 
 	# Output layer
-	merged_layers = fully_connected(merged_layers, 10, activation = 'softmax')
+	merged_layers = fully_connected(merged_layers, LABELS, activation = 'softmax')
 	network = regression(merged_layers, optimizer = 'adam', learning_rate = 0.0005,
 	                     loss = 'categorical_crossentropy', name ='target')
 

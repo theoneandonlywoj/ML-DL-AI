@@ -5,10 +5,10 @@ from import_data import *
 from network import *
 
 # Getting the data
-x_train, x_val, y_train, y_val = get_data()
+x_train, x_val, y_train, y_val = get_data_MNIST()
 
 # Recalling the network defined in network.py
-model = ANN()
+model = ANN(WIDTH = 28, HEIGHT = 28, CHANNELS = 1, LABELS = 10)
 # Training
 model.fit(x_train, y_train, n_epoch = 1000, validation_set = (x_val, y_val), 
 show_metric = True, batch_size = 200, shuffle = True, #snapshot_step = 100,

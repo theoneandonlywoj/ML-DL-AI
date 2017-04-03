@@ -2,7 +2,9 @@ import tflearn
 from tflearn.layers.core import input_data, activation, fully_connected
 from tflearn.layers.conv import conv_2d, residual_bottleneck, global_avg_pool
 from tflearn.layers.normalization import batch_normalization
+from tflearn.layers.estimator import regression
 from tflearn.data_preprocessing import ImagePreprocessing
+
 
 # Building the network
 def ANN(WIDTH, HEIGHT, CHANNELS, LABELS):
@@ -32,14 +34,13 @@ def ANN(WIDTH, HEIGHT, CHANNELS, LABELS):
 	# Output layer
 	network = fully_connected(network, LABELS, activation = 'softmax')
 
-	'''
-	network = regression(network, optimizer = 'adam', learning_rate = 0.01,
-	                     loss = 'categorical_crossentropy', name ='target')
+	
+	network = regression(network, optimizer = 'adam', learning_rate = 0.01, loss = 'categorical_crossentropy', name ='target')
 	'''
 	# Regression
-	network = tflearn.regression(network, optimizer = 'momentum',
+	network = regression(network, optimizer = 'momentum',
 	                         loss  = 'categorical_crossentropy',
 	                         learning_rate = 0.1)
-
+	'''
 	model = tflearn.DNN(network, tensorboard_verbose = 0, tensorboard_dir = './logs', best_checkpoint_path = './checkpoints/best/best_val', max_checkpoints = 1)
 	return model

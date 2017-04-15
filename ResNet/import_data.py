@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 from tflearn.data_utils import to_categorical
+from import_data import *
 
 def import_csv(file_path, shuffle = False):
     data = pd.read_csv(file_path)
@@ -26,7 +27,7 @@ def labels_info(output_data):
     return number_of_labels
 
 def labels_as_numbers(output_data):
-    _, output_data_as_numbers = np.unique(output_data, return_inverse = True)
+    _, output_data_as_numbers = np.unique(output_data, return_inverse=True)
     return output_data_as_numbers
 
 # -------------------------------------------------------------------------------
@@ -83,6 +84,18 @@ def get_data_MNIST():
 	y_val = to_categorical(y_val, nb_classes = 10)
 
 	return x_train, x_val, y_train, y_val   
+
+def get_data_MNIST_test():
+	# Loading the test data
+	file_name_test = 'test.csv'
+	folder = 'Digit Recognizer'
+
+	source = folder + '/' + file_name_test
+	data = pd.read_csv(source)
+
+	test_input = data.loc[:, :]
+
+	return test_input.as_matrix()
 
 # Oxford Flowers Dataset
 def get_data_oxford_flowers():

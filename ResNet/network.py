@@ -1,4 +1,7 @@
 import tflearn
+import numpy as np
+from tqdm import tqdm
+
 from tflearn.layers.core import input_data, activation, fully_connected
 from tflearn.layers.conv import conv_2d, residual_bottleneck, global_avg_pool
 from tflearn.layers.normalization import batch_normalization
@@ -6,7 +9,7 @@ from tflearn.layers.estimator import regression
 from tflearn.data_preprocessing import ImagePreprocessing
 
 
-# Building the network
+# Building the network ResNet-18
 def ANN(WIDTH, HEIGHT, CHANNELS, LABELS):
 	dropout_value = 0.35
 
@@ -27,6 +30,8 @@ def ANN(WIDTH, HEIGHT, CHANNELS, LABELS):
 	network = residual_bottleneck(network, 2, 32, 128)
 	network = residual_bottleneck(network, 1, 64, 256, downsample=True)
 	network = residual_bottleneck(network, 2, 64, 256)
+	network = residual_bottleneck(network, 1, 128, 512, downsample=True)
+	network = residual_bottleneck(network, 2, 128, 512)
 	network = batch_normalization(network)
 	network = activation(network, 'relu')
 	network = global_avg_pool(network)
@@ -42,5 +47,20 @@ def ANN(WIDTH, HEIGHT, CHANNELS, LABELS):
 	                         loss  = 'categorical_crossentropy',
 	                         learning_rate = 0.1)
 	'''
-	model = tflearn.DNN(network, tensorboard_verbose = 0, tensorboard_dir = './logs', best_checkpoint_path = './checkpoints/best/best_val', max_checkpoints = 1)
+	model = tflearn.DNN(network, tensorboard_verbose = 0, tensorboard_dir = './logs', 
+		best_checkpoint_path = './checkpoints/best/best_val', max_checkpoints = 1)
 	return model
+
+def big_dataset_prediction(model, DATA = []):
+    # Predicting
+    test_data_predicted = np.empty((0, 10))
+    test_data_predicted_label = np.empty((0, 10))
+    print('Prediction in progress...')
+    for i in tqdm(range(0, DATA.shape[0])):
+        current_example = DATA[i].reshape([-1,28,28,1])
+        test_data_predicted = np.append(test_data_predicted, model.predict(current_example), axis = 0)
+        test_data_predicted_label = np.append(test_data_predicted_label, model.predict_label(current_example), axis = 0)
+
+    print('The test data has been successfully labeled.')
+    print('*' * 70)
+    return test_data_predicted_label

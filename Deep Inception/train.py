@@ -10,7 +10,8 @@ x_train, x_val, y_train, y_val = get_data_MNIST()
 # Recalling the network defined in network.py
 model = ANN(WIDTH = 28, HEIGHT = 28, CHANNELS = 1, LABELS = 10)
 # Training
-model.fit(x_train, y_train, n_epoch = 1, validation_set = (x_val, y_val), show_metric = True, batch_size = 200, shuffle = True, snapshot_epoch = True, run_id = 'WojNet')
+model.fit(x_train, y_train, n_epoch = 1, validation_set = (x_val, y_val), 
+	show_metric = True, batch_size = 200, shuffle = True, snapshot_epoch = True, run_id = 'Deep Inception')
 
 # Loading the best network
 model_name = input('Input name of the best model: ')

@@ -25,8 +25,6 @@ def ANN(NAME, WIDTH, HEIGHT, CHANNELS, LABELS):
 
 		network = flatten(network) 
 		network = fully_connected(network, 1000, activation='relu')
-		network = fully_connected(network, 1000, activation='relu')
-		network = fully_connected(network, 1000, activation='relu')
 
 		network = fully_connected(network, 1000, activation='relu')
 		network = dropout(network, dropout_value)
@@ -46,8 +44,6 @@ def ANN(NAME, WIDTH, HEIGHT, CHANNELS, LABELS):
 		network = flatten(network) 
 		network = fully_connected(network, 1000, activation='relu')
 		network = fully_connected(network, 1000, activation='relu')
-		network = fully_connected(network, 1000, activation='relu')
-		network = fully_connected(network, 1000, activation='relu')
 		
 		network = fully_connected(network, 1000, activation='relu')
 		network = dropout(network, dropout_value)
@@ -65,8 +61,6 @@ def ANN(NAME, WIDTH, HEIGHT, CHANNELS, LABELS):
 		dropout_value = 0.5
 
 		network = flatten(network) 
-		network = fully_connected(network, 1000, activation='relu')
-		network = fully_connected(network, 1000, activation='relu')
 		network = fully_connected(network, 1000, activation='relu')
 		network = fully_connected(network, 1000, activation='relu')
 		network = fully_connected(network, 1000, activation='relu')

@@ -3,7 +3,7 @@ import numpy as np
 from tqdm import tqdm
 
 from tflearn.layers.core import input_data, activation, fully_connected
-from tflearn.layers.conv import conv_2d, residual_bottleneck, global_avg_pool
+from tflearn.layers.conv import conv_2d, residual_bottleneck, global_avg_pool, residual_block
 from tflearn.layers.normalization import batch_normalization
 from tflearn.layers.estimator import regression
 from tflearn.data_preprocessing import ImagePreprocessing
@@ -24,7 +24,8 @@ def ANN(WIDTH, HEIGHT, CHANNELS, LABELS):
 		name='input')
 
 	network = conv_2d(network, 64, 3, activation='relu', bias=False)
-	# Residual blocks
+	# Residual blocks'
+	
 	network = residual_bottleneck(network, 3, 16, 64)
 	network = residual_bottleneck(network, 1, 32, 128, downsample=True)
 	network = residual_bottleneck(network, 2, 32, 128)
@@ -32,6 +33,7 @@ def ANN(WIDTH, HEIGHT, CHANNELS, LABELS):
 	network = residual_bottleneck(network, 2, 64, 256)
 	network = residual_bottleneck(network, 1, 128, 512, downsample=True)
 	network = residual_bottleneck(network, 2, 128, 512)
+	
 	network = batch_normalization(network)
 	network = activation(network, 'relu')
 	network = global_avg_pool(network)

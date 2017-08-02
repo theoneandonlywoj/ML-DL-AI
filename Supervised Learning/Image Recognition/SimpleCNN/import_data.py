@@ -118,7 +118,7 @@ def get_data_CIFAR10(dataset = 'Train + Val'):
 	
 	# Size is 32, 32, 3
 	
-	split_percentage = 80
+	split_percentage = 90
 	split_index = int(X.shape[0]/(100/split_percentage))
 
 	x_train = np.array(X[:split_index])

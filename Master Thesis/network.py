@@ -19,7 +19,7 @@ def ANN(NAME, WIDTH, HEIGHT, CHANNELS, LABELS):
 	network = input_data(shape=[None, WIDTH, HEIGHT, CHANNELS],
 		data_preprocessing=img_prep,
 		name='Input')
-# ---------------------------------------------
+# ------------------------------------------------------------------------------------------
 	if NAME == 'MLP-3':
 		dropout_value = 0.5
 
@@ -37,7 +37,7 @@ def ANN(NAME, WIDTH, HEIGHT, CHANNELS, LABELS):
 
 		network = regression(network, optimizer = 'adam', learning_rate = 0.0005,
 		                     loss = 'categorical_crossentropy', name ='target')
-# ---------------------------------------------
+# ------------------------------------------------------------------------------------------
 	if NAME == 'MLP-4':
 		dropout_value = 0.5
 
@@ -56,7 +56,7 @@ def ANN(NAME, WIDTH, HEIGHT, CHANNELS, LABELS):
 
 		network = regression(network, optimizer = 'adam', learning_rate = 0.0005,
 		                     loss = 'categorical_crossentropy', name ='target')
-# ---------------------------------------------
+# ------------------------------------------------------------------------------------------
 	if NAME == 'MLP-5':
 		dropout_value = 0.5
 
@@ -77,7 +77,7 @@ def ANN(NAME, WIDTH, HEIGHT, CHANNELS, LABELS):
 
 		network = regression(network, optimizer = 'adam', learning_rate = 0.0005,
 		                     loss = 'categorical_crossentropy', name ='target')
-# ---------------------------------------------
+# ------------------------------------------------------------------------------------------
 	elif NAME == 'SimpleCNN':
 		dropout_value = 0.5
 
@@ -99,34 +99,35 @@ def ANN(NAME, WIDTH, HEIGHT, CHANNELS, LABELS):
 
 		network = regression(network, optimizer = 'adam', learning_rate = 0.0005,
 		                     loss = 'categorical_crossentropy', name ='target')	
-# ---------------------------------------------
+# ------------------------------------------------------------------------------------------
 	elif NAME == 'PrimeInception-ES':
 
 		dropout_value = 0.5
 		
 		# Branch 1
 		branch1 = conv_2d(network, 32, [2, 2], activation = 'relu', name = 'B1Conv2d_2x2')
+		branch1 = batch_normalization(branch1)
 
 		# Branch 2
 		branch2 = conv_2d(network, 16, [3, 3], activation = 'relu', name = 'B2Conv2d_3x3')
 		branch2 = conv_2d(branch2, 32, [2, 2], activation = 'relu', name = 'B2Conv2d_2x2')
+		branch2 = batch_normalization(branch2)
 
 		# Branch 3
 		branch3 = conv_2d(network, 8, [5, 5], activation = 'relu', name = 'B3Conv2d_5x5')
 		branch3 = conv_2d(branch3, 16, [3, 3], activation = 'relu', name = 'B3Conv2d_3x3')
 		branch3 = conv_2d(branch3, 32, [2, 2], activation = 'relu', name = 'B3Conv2d_2x2')
+		branch3 = batch_normalization(branch3)
 
 		# Branch 4
 		branch4 = conv_2d(network, 4, [7, 7], activation = 'relu', name = 'B4Conv2d_7x7')
 		branch4 = conv_2d(branch4, 8, [5, 5], activation = 'relu', name = 'B4Conv2d_5x5')
 		branch4 = conv_2d(branch4, 16, [3, 3], activation = 'relu', name = 'B4Conv2d_3x3')
 		branch4 = conv_2d(branch4, 32, [2, 2], activation = 'relu', name = 'B4Conv2d_2x2')
+		branch4 = batch_normalization(branch4)
 
 		# Merging the branches
 		merged_layers = merge((branch1, branch2, branch3, branch4), mode = 'elemwise_sum', name = 'ElemwiseSum')
-
-		# Batch normalization
-		merged_layers = batch_normalization(merged_layers)
 		
 		# Fully connected 1
 		merged_layers = fully_connected(merged_layers, 1000, activation='relu')
@@ -141,35 +142,36 @@ def ANN(NAME, WIDTH, HEIGHT, CHANNELS, LABELS):
 
 		network = regression(merged_layers, optimizer = 'adam', learning_rate = 0.0005,
 		                     loss = 'categorical_crossentropy', name ='target')
-# ---------------------------------------------
+# ------------------------------------------------------------------------------------------
 	elif NAME == 'PrimeInception-C':
 
 		dropout_value = 0.5
 		
 		# Branch 1
 		branch1 = conv_2d(network, 32, [2, 2], activation = 'relu', name = 'B1Conv2d_2x2')
+		branch1 = batch_normalization(branch1)
 
 		# Branch 2
 		branch2 = conv_2d(network, 16, [3, 3], activation = 'relu', name = 'B2Conv2d_3x3')
 		branch2 = conv_2d(branch2, 32, [2, 2], activation = 'relu', name = 'B2Conv2d_2x2')
+		branch2 = batch_normalization(branch2)
 
 		# Branch 3
 		branch3 = conv_2d(network, 8, [5, 5], activation = 'relu', name = 'B3Conv2d_5x5')
 		branch3 = conv_2d(branch3, 16, [3, 3], activation = 'relu', name = 'B3Conv2d_3x3')
 		branch3 = conv_2d(branch3, 32, [2, 2], activation = 'relu', name = 'B3Conv2d_2x2')
+		branch3 = batch_normalization(branch3)
 
 		# Branch 4
 		branch4 = conv_2d(network, 4, [7, 7], activation = 'relu', name = 'B4Conv2d_7x7')
 		branch4 = conv_2d(branch4, 8, [5, 5], activation = 'relu', name = 'B4Conv2d_5x5')
 		branch4 = conv_2d(branch4, 16, [3, 3], activation = 'relu', name = 'B4Conv2d_3x3')
 		branch4 = conv_2d(branch4, 32, [2, 2], activation = 'relu', name = 'B4Conv2d_2x2')
+		branch4 = batch_normalization(branch4)
 
 		# Merging the branches
 		merged_layers = merge((branch1, branch2, branch3, branch4), mode = 'concat', name = 'Concatenation')
-
-		# Batch normalization
-		merged_layers = batch_normalization(merged_layers)
-		
+	
 		# Fully connected 1
 		merged_layers = fully_connected(merged_layers, 1000, activation='relu')
 		merged_layers = dropout(merged_layers, dropout_value)
@@ -183,10 +185,10 @@ def ANN(NAME, WIDTH, HEIGHT, CHANNELS, LABELS):
 
 		network = regression(merged_layers, optimizer = 'adam', learning_rate = 0.0005,
 		                     loss = 'categorical_crossentropy', name ='target')
-# ---------------------------------------------
+# ------------------------------------------------------------------------------------------
 	elif NAME == 'SaraNet-P-ES':
 		dropout_value = 0.5
-		filters = 10
+		filters = 15
 
 		layer_7x7 = conv_2d(network, filters, [7, 7], activation = 'relu', name = 'Conv2d_7x7')
 
@@ -215,10 +217,10 @@ def ANN(NAME, WIDTH, HEIGHT, CHANNELS, LABELS):
 
 		network = regression(final, optimizer = 'adam', learning_rate = 0.0005,
 				             loss = 'categorical_crossentropy', name ='target')
-# ---------------------------------------------
+# ------------------------------------------------------------------------------------------
 	elif NAME == 'SaraNet-P-C':
 		dropout_value = 0.5
-		filters = 10
+		filters = 15
 
 		layer_7x7 = conv_2d(network, filters, [7, 7], activation = 'relu', name = 'Conv2d_7x7')
 
@@ -247,10 +249,10 @@ def ANN(NAME, WIDTH, HEIGHT, CHANNELS, LABELS):
 
 		network = regression(final, optimizer = 'adam', learning_rate = 0.0005,
 				             loss = 'categorical_crossentropy', name ='target')
-# ---------------------------------------------
+# ------------------------------------------------------------------------------------------
 	elif NAME == 'SaraNet-3x3-ES':
 		dropout_value = 0.5
-		filters = 10
+		filters = 15
 
 		layer_7x7 = conv_2d(network, filters, [3, 3], activation = 'relu', name = 'Conv2d_3x3_1')
 
@@ -279,10 +281,10 @@ def ANN(NAME, WIDTH, HEIGHT, CHANNELS, LABELS):
 
 		network = regression(final, optimizer = 'adam', learning_rate = 0.0005,
 				             loss = 'categorical_crossentropy', name ='target')
-# ---------------------------------------------
+# ------------------------------------------------------------------------------------------
 	elif NAME == 'SaraNet-3x3-C':
 		dropout_value = 0.5
-		filters = 10
+		filters = 15
 
 		layer_7x7 = conv_2d(network, filters, [3, 3], activation = 'relu', name = 'Conv2d_3x3_1')
 
@@ -311,7 +313,7 @@ def ANN(NAME, WIDTH, HEIGHT, CHANNELS, LABELS):
 
 		network = regression(final, optimizer = 'adam', learning_rate = 0.0005,
 				             loss = 'categorical_crossentropy', name ='target')
-# ---------------------------------------------
+# ------------------------------------------------------------------------------------------
 	elif NAME == 'VGG-16':
 
 		network = conv_2d(network, 64, 3, activation = 'relu')
@@ -346,8 +348,7 @@ def ANN(NAME, WIDTH, HEIGHT, CHANNELS, LABELS):
 		merged_layers = fully_connected(network, LABELS, activation = 'softmax')
 		network = regression(merged_layers, optimizer = 'adam', learning_rate = 0.0005,
 		                     loss = 'categorical_crossentropy', name ='target')
-
-# ---------------------------------------------
+# ------------------------------------------------------------------------------------------
 	elif NAME == 'ResNet-18':
 		# Residual blocks
 		network = conv_2d(network, 16, 7, regularizer='L2', weight_decay=0.0001)
@@ -381,14 +382,12 @@ def ANN(NAME, WIDTH, HEIGHT, CHANNELS, LABELS):
 		                         learning_rate = 0.1)
 
 		'''
-
-
 	# -----------------------------------------------
 	# Returning the network and tensorboard settings.
 	# -----------------------------------------------	
 	model = tflearn.DNN(network, 
 						tensorboard_verbose = 0, 
 						tensorboard_dir = './logs/', 
-						best_checkpoint_path = './checkpoints/best/best_' + NAME + '-', 
+						best_checkpoint_path = './checkpoints/best/'+ NAME + '/best_' + NAME + '-', 
 						max_checkpoints = 1)
 	return model

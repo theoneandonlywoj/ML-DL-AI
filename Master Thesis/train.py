@@ -13,7 +13,7 @@ available_networks = ['MLP-3', 'MLP-4', 'MLP-5', 'SimpleCNN', 'PrimeInception-ES
 					  'SaraNet-P-ES', 'SaraNet-P-C', 'SaraNet-3x3-ES', 'SaraNet-3x3-C',
 					  'VGG-16', 'ResNet-18', ]
 
-name = 'PrimeInception-C'
+name = 'MLP-3'
 #model = ANN(NAME = name, WIDTH = 28, HEIGHT = 28, CHANNELS = 1, LABELS = 10)
 model = ANN(NAME = name, WIDTH = 32, HEIGHT = 32, CHANNELS = 3, LABELS = 10)
 
@@ -34,6 +34,7 @@ print('Model is successfully loaded for the best performance!')
 
 # Evaluation
 print('Evaluation in progress...')
+
 #x_test, y_test =  get_data_MNIST_native(dataset = 'Test')
 x_test, y_test = get_data_CIFAR10(dataset = 'Test')
 print('Test data accuracy:', model.evaluate(x_test, y_test))
